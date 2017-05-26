@@ -72,7 +72,21 @@ class PageController extends Controller
     ));
     }
     
-   
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(Request $request)
+    {
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('BlogBundleBlogBundle:MyPage:sidebar.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
+    }
 }
     
     

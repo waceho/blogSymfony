@@ -29,3 +29,7 @@ blog_bundle_comment_create:
     requirements:
         _method:  POST
         blog_id: \d+
+        
+admin_area:
+    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    prefix: /admin
