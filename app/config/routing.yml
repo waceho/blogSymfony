@@ -1,0 +1,7 @@
+blog_bundle_blog:
+    resource: "@BlogBundleBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
