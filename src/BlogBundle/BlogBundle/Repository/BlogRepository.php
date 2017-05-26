@@ -28,7 +28,7 @@ class BlogRepository extends EntityRepository
     }
     
     public function getTags()
-{
+    {
     $blogTags = $this->createQueryBuilder('b')
                      ->select('b.tags')
                      ->getQuery()
@@ -46,10 +46,10 @@ class BlogRepository extends EntityRepository
     }
 
     return $tags;
-}
+    }
 
-public function getTagWeights($tags)
-{
+    public function getTagWeights($tags)
+    {
     $tagWeights = array();
     if (empty($tags))
         return $tagWeights;
@@ -73,5 +73,5 @@ public function getTagWeights($tags)
     }
 
     return $tagWeights;
-}
+    }
 }

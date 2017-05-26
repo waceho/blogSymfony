@@ -59,7 +59,7 @@ class PageController extends Controller
     public function sidebarAction()
     {
     $em = $this->getDoctrine()
-               ->getEntityManager();
+               ->getManager();
 
     $tags = $em->getRepository('BlogBundleBlogBundle:Blog')
                ->getTags();

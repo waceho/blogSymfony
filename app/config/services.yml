@@ -7,3 +7,15 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    
+    blogbundle.blog.admin.blog:
+      class: BlogBundle\BlogBundle\Admin\BlogAdmin
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: blogbundle, label: Blog }
+      arguments: [null, BlogBundle\BlogBundle\Entity\Blog, BlogBundleBlogBundle:BlogAdmin]
+      
+    blogbundle.blog.admin.comment:
+      class: BlogBundle\BlogBundle\Admin\CommentAdmin
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: commentbundle, label: Comment }
+      arguments: [null, BlogBundle\BlogBundle\Entity\Comment, BlogBundleBlogBundle:CommentAdmin]

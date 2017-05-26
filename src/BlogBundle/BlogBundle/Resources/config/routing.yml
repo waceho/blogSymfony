@@ -10,6 +10,12 @@ blog_bundle_blog_about:
     requirements:
         _method:  GET
         
+blog_bundle_blog_glogadmin:
+    path:     /about
+    defaults: { _controller: BlogBundleBlogBundle:Page:about }
+    requirements:
+        _method:  GET
+        
 blog_bundle_blog_contact:
     path:     /contact
     defaults: { _controller: BlogBundleBlogBundle:Page:contact }
@@ -33,3 +39,9 @@ blog_bundle_comment_create:
 admin_area:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
     prefix: /admin
+    
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+    

@@ -2,7 +2,7 @@
 {% extends 'BlogBundleBlogBundle::layout.html.twig' %}
 
 {% block body %}
-    {% for blog in blogs %}
+    {% for blog in blogs if blog.enabled%}
         <article class="w3-card">
             <div class="date"><b>Posted at : </b><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
             <header>
@@ -12,7 +12,7 @@
             <img src="{{ asset(['images/', blog.image]|join) }}" style="max-width:250px;max-height: 200px; float:left; margin-right:15px; margin-left: 15px"/>
             <div class="snippet">
                 <p>{{ blog.blog(500) }}</p>
-                <p class="continue"><a href="{{ path('blog_bundle_blog_show', { 'id': blog.id }) }}">Continue reading...</a></p>
+                <p class="continue"><a href="{{ path('blog_bundle_blog_show', { 'id': blog.id }) }}">Lire plus...</a></p>
             </div>
 
             <footer class="meta">
@@ -22,6 +22,6 @@
             </footer>
         </article>
     {% else %}
-        <p>aucun enregistrement</p>
+        <p>aucun post</p>
     {% endfor %}
 {% endblock %}

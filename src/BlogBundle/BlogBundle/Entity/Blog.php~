@@ -4,7 +4,7 @@
 namespace BlogBundle\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -61,6 +61,12 @@ class Blog
      */
     protected $updated;
 
+     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $enabled;
+
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -255,5 +261,45 @@ class Blog
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \BlogBundle\BlogBundle\Entity\Comment $comment
+     *
+     * @return Blog
+     */
+    public function addComment(\BlogBundle\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \BlogBundle\BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\BlogBundle\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+    
+    
+    public function __toString()
+    {
+    return $this->getTitle();
     }
 }

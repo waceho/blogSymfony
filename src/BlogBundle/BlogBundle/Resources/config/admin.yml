@@ -1,0 +1,11 @@
+services:
+    app.admin.post:
+        class: BlogBundle\BlogBundle\Admin\BlogAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Blog" }
+        arguments:
+            - ~
+            - BlogBundle\BlogBundle\Entity\Blog
+            - ~
+        calls:
+            - [ setTranslationDomain, [BlogBundle]]

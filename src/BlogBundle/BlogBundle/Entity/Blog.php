@@ -61,6 +61,11 @@ class Blog
      */
     protected $updated;
 
+     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $enabled;
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -291,8 +296,33 @@ class Blog
         return $this->comments;
     }
     
+    
     public function __toString()
     {
     return $this->getTitle();
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Blog
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 }
