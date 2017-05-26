@@ -77,7 +77,7 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $comment->setUser('Kate');
         $comment->setComment('Make it my first-born!');
         $comment->setBlog($manager->merge($this->getReference('blog-2')));
-        $comment->setCreated(new \DateTime("2011-07-23 11:08:08"));
+        $comment->setCreated(new \DateTime("2016-07-23 11:08:08"));
         $manager->persist($comment);
 
         $comment = new Comment();

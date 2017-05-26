@@ -34,7 +34,7 @@ class PageController extends Controller
     }
     
    public function contactAction(Request $request)
-{
+   {
    
     $enquiry = new Enquiry();
     $form = $this->createForm(EnquiryType::class, $enquiry);
@@ -55,7 +55,24 @@ class PageController extends Controller
         'form' => $form->createView()
     ));
     }
-   
+    
+    public function sidebarAction()
+    {
+    $em = $this->getDoctrine()
+               ->getEntityManager();
+
+    $tags = $em->getRepository('BlogBundleBlogBundle:Blog')
+               ->getTags();
+
+    $tagWeights = $em->getRepository('BlogBundleBlogBundle:Blog')
+                     ->getTagWeights($tags);
+
+    return $this->render('BlogBundleBlogBundle:MyPage:sidebar.html.twig', array(
+        'tags' => $tagWeights
+    ));
     }
+    
+   
+}
     
     
