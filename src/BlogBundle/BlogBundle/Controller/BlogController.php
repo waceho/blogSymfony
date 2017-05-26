@@ -15,16 +15,21 @@ class BlogController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $blog = $em->getRepository('BlogBundleBlogBundle:Blog')->find($id);
 
         if (!$blog) {
-            throw $this->createNotFoundException('no find Blog post.');
-        }
+        throw $this->createNotFoundException('no find Blog post.');
+    }
 
-        return $this->render('BlogBundleBlogBundle:Blog:show.html.twig', array(
-            'blog'      => $blog,
-        ));
+    $comments = $em->getRepository('BlogBundleBlogBundle:Comment')
+                   ->getCommentsForBlog($blog->getId());
+
+    return $this->render('BlogBundleBlogBundle:Blog:show.html.twig', array(
+        'blog'      => $blog,
+        'comments'  => $comments
+    ));
+        
     }
 }

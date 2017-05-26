@@ -12,7 +12,20 @@ class PageController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('BlogBundleBlogBundle:MyPage:index.html.twig');
+       // index
+        $em = $this->getDoctrine()
+                   ->getManager();
+
+        $blogs = $em->createQueryBuilder()
+                    ->select('b')
+                    ->from('BlogBundleBlogBundle:Blog',  'b')
+                    ->addOrderBy('b.created', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+
+        return $this->render('BlogBundleBlogBundle:MyPage:index.html.twig', array(
+            'blogs' => $blogs
+        ));
     }
 	
     public function aboutAction()

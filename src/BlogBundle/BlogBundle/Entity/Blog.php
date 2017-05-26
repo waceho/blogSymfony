@@ -4,10 +4,13 @@
 namespace BlogBundle\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BlogBundle\BlogBundle\Repository\BlogRepository")
  * @ORM\Table(name="blog")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Blog
 {
@@ -43,6 +46,9 @@ class Blog
      */
     protected $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
+     */
     protected $comments;
 
     /**
@@ -55,6 +61,21 @@ class Blog
      */
     protected $updated;
 
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->setCreated(new \DateTime());
+        $this->setUpdated(new \DateTime());
+    }
+
+    /**
+     * @ORM\preUpdate
+     */
+    public function setUpdatedValue()
+    {
+       $this->setUpdated(new \DateTime());
+    }
+    
     /**
      * Get id
      *
@@ -132,10 +153,13 @@ class Blog
      *
      * @return string
      */
-    public function getBlog()
-    {
+   public function getBlog($length = null)
+{
+    if (false === is_null($length) && $length > 0)
+        return substr($this->blog, 0, $length);
+    else
         return $this->blog;
-    }
+}
 
     /**
      * Set image
@@ -231,5 +255,44 @@ class Blog
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \BlogBundle\BlogBundle\Entity\Comment $comment
+     *
+     * @return Blog
+     */
+    public function addComment(\BlogBundle\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \BlogBundle\BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\BlogBundle\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+    
+    public function __toString()
+    {
+    return $this->getTitle();
     }
 }
