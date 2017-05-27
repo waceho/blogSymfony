@@ -1,8 +1,9 @@
 {# src/BlogBundle/BlogBundle/Resources/views/Page/sidebar.html.twig #}
 
 <section class="section">
-    <h1>Login</h1>
-
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <a class="link" href="{{ path('logout') }}">Logout</a>
+{% endif %}
 <form action="{{ path('login') }}" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="_username" value="" />

@@ -1,11 +1,33 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/security.html
 security:
-
+    encoders:
+        BlogBundle\BlogBundle\Entity\User:
+            algorithm: bcrypt
+            
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+            
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         in_memory:
-            memory: ~
+            memory:
+            # this was here when we started: 2 hardcoded users
+        
+        administrators:
+            entity: { class: BlogBundleBlogBundle:User, property: username }
+        
+        our_db_provider:
+            entity:
+                class: BlogBundle:User
+                property: username
+                # if you're using multiple entity managers
+                # manager_name: customer
+        
+    access_control:
+        - { path: ^/user, roles: [ 'ROLE_USER' ] }
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -22,3 +44,11 @@ security:
 
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             #form_login: ~
+            
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+            
+        admin_area:
+            pattern:    ^/admin
+            http_basic: ~

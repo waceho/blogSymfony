@@ -5,6 +5,7 @@ namespace BlogBundle\BlogBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use BlogBundle\BlogBundle\Entity\Enquiry;
 use BlogBundle\BlogBundle\Form\EnquiryType;
 
@@ -73,19 +74,36 @@ class PageController extends Controller
     }
     
     /**
-     * @Route("/login", name="login")
+     * @Route("/admin", name="login")
      */
     public function loginAction(Request $request)
     {
+        $session = $request->getSession();
+        // index
+        $em = $this->getDoctrine()
+                   ->getManager();
+
+        $blogs = $em->createQueryBuilder()
+                    ->select('b')
+                    ->from('BlogBundleBlogBundle:Blog',  'b')
+                    ->addOrderBy('b.created', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+        
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('BlogBundleBlogBundle:MyPage:sidebar.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
+        
+        return $this->render(
+            'BlogBundleBlogBundle:MyPage:index.html.twig',
+            array(
+                // last username entered by the user
+                'last_username' => $lastUsername,
+                'error'         => $error,
+                 'blogs' => $blogs,
+            )
+        );
     }
 }
     
